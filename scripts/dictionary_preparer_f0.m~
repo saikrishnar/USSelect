@@ -15,7 +15,8 @@ for i = 3:length(waves)
        i
        % Loops through each file in speaker
         
-        reffilename = waves(i).name;        
+        reffilename = waves(i).name;
+        
         [refstr,tok] = strtok(reffilename,'.');
              
        % Read the wave and apply the diff operation

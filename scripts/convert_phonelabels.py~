@@ -34,8 +34,8 @@ def convert(folder):
             phone_array = []
             time_array = []
             fr = open(fullfname)
-            f0_array = f0_reader(fname)
-            energy_array = energy_reader(fname)
+            #f0_array = f0_reader(fname)
+            #energy_array = energy_reader(fname)
             for line in fr:
                 if line.split('\n')[0] == '#':
                    continue
@@ -57,11 +57,11 @@ def convert(folder):
                 print len(time_array)
                 print len(energy_array)
                 print start_frame , end_frame
-                start_energy = energy_array[int(start_frame) - 1]
-                end_energy = energy_array[int(end_frame) ]
+                #start_energy = energy_array[int(start_frame) - 1]
+                #end_energy = energy_array[int(end_frame) ]
                 start_f0 = f0_array[int(start_frame) - 1]
-                end_f0 = f0_array[int(end_frame) - 1]
-                fw.write( phone + ' ' + s_ns + ' ' + e_ns + ' '  + start_frame + ' ' + end_frame + ' ' + start_energy + ' ' + end_energy + ' ' + start_f0 + ' ' + end_f0 +  '\n')
+                end_f0 = f0_array[int(end_frame) ]
+                fw.write( phone + ' ' + s_ns + ' ' + e_ns + ' '  + start_frame + ' ' + end_frame + ' ' +  '\n')
                 i = i + 1
               except IndexError:
                 pass

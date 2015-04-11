@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+# Unit Selection
+
+python units_positionadder.py
+cd ../lab
+cat *.suffixlab > tel.suffixlab
+mv tel.suffixlab ../dictionary
+cd ../dictionary
+cut -d ' ' -f 1 tel.suffixlab > phones.dict
+cut -d ' ' -f 2-9 tel.suffixlab > feats.dict
+cut -d ' ' -f 10 tel.suffixlab > filenames.dict
