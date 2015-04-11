@@ -1,8 +1,11 @@
 % This program concatenates the units based on Viterbi algorithm with
 % duration as target cost and pitch as join cost.
+% Source : Enhancements of Viterbi Search for Fast Unit Selection Synthesis INTERSPEECH 2010
+
 
 % Clear the workspace
 clc; clear all; close all;
+
 
 % Load a test sentence
 fid = fopen('../test/phones.phone');
@@ -35,11 +38,19 @@ dict_f0_start = feats_dict(:,7);
 dict_f0_end = feats_dict(:,8);
 
 
+
+
+
+
+
+
+
 % Start the Viterbi Algorithm
 p = 0;
 final_units = [];
 final_durs = [];
-% initiate the first unit
+C_star = [];
+% Step 1:   Initiate the first unit
 for i = 1:length(test_phones)
     targetcost_vector = [];
     units_vector = [];
@@ -59,14 +70,14 @@ for i = 1:length(test_phones)
     end
     
 end
+C_star = [ C_star targetcost];
 p = p + 1;
 final_units = [final_units unit];
 final_durs = [ final_durs unit_durations(idx)] ;
-% Compute the cost for all the other units
+%  Step 2:    Compute the cost for all the other units
 for i = p+1 : length(test_phones) - 1
     % Concatenation Cost
-    % Loop through all the k instants of the current unit and all the l
-    % units of the next unit
+    % Loop through all the k instants of the current unit and all the l units of the next unit
     current_unit = test_phones(i)
     currentunit_examples = temp(strcmp(current_unit,temp));
     currentunit_f0 = dict_f0_end(strcmp(current_unit,temp));
@@ -85,9 +96,14 @@ for i = p+1 : length(test_phones) - 1
     idx
     unit_durations(idx)
     
-    final_units = [final_units current_unit];
-    final_durs = [ final_durs unit_durations(idx)] ;
+    % Update the global cost and the candidate vector
+    C_star = [ C_star      
+
 end
+
+
+% Step 3:  Find the best candidate units
+
 
 final_units
 final_durs

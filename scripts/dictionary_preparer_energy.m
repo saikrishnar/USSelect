@@ -3,9 +3,12 @@
 % Clear the workspace
 clc; clear all; close all;
 
+addpath 'voicebox';
 % Set the paths to the folders
 waves = dir('../wav');
 energypath = '../energy';
+mfccpath = '../mfcc';
+f0path = '../f0';
 
 % Loop through all the waves
 for i = 3:length(waves)
@@ -19,6 +22,9 @@ for i = 3:length(waves)
         [y,fs] = wavread(strcat('../wav/', reffilename));       
         y = diff(y);
         y(end+1) = y(end);
+
+       % Obtain mfcc
+        mfcc = melcepst(y,fs);
         
        % Defining the system parameters
         frSize = 20*(fs/1000);
@@ -30,11 +36,22 @@ for i = 3:length(waves)
         ybw = bsxfun(@times,yb,hamming(frSize));
         
        % Obtain energy
-        energy = sum(yb.^2);        
+        energy = sum(yb.^2);   
+ 
+       % Obtain pitch
+        [f0, ~,~,~] = fxpefac(y, fs, frShift)     
       
         % Write in file
         destination = strcat(energypath, '/', refstr, '.energy');
-        dlmwrite(destination, energy, 'delimiter', '\n');        
+        dlmwrite(destination, energy, 'delimiter', '\n');    
+
+        destination = strcat(mfccpath, '/', refstr, '.mfcc');
+        dlmwrite(destination, mfcc, 'delimiter', ' ');        
+   
+
+        destination = strcat(f0, '/', refstr, '.f0');
+        dlmwrite(destination, f0, 'delimiter', ' ');        
+    
 
     
 end

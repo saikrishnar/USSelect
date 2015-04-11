@@ -60,7 +60,7 @@ def convert(folder):
                 start_energy = energy_array[int(start_frame) - 1]
                 end_energy = energy_array[int(end_frame) ]
                 start_f0 = f0_array[int(start_frame) - 1]
-                end_f0 = f0_array[int(end_frame) - 1]
+                end_f0 = f0_array[int(end_frame) ]
                 fw.write( phone + ' ' + s_ns + ' ' + e_ns + ' '  + start_frame + ' ' + end_frame + ' ' + start_energy + ' ' + end_energy + ' ' + start_f0 + ' ' + end_f0 +  '\n')
                 i = i + 1
               except IndexError:

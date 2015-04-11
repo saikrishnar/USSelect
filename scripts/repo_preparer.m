@@ -42,7 +42,7 @@ fid = fopen('../lab/phones.txt','w');
 for i = 1 :length(phn_array)
     i
     str = phn_array{i}
-    fprintf(fid, '%s\r\n', str); 
+    fprintf(fid, '%s\n', str); 
 end
 fclose(fid);
  

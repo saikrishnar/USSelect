@@ -6,7 +6,7 @@ function [idx, targetcost] = compute_targetcost(duration, mean_duration)
 % duration - vector of exemplar durations in milliseconds
 % mean_duration - Mean Duration of the exemplar
 
-[targetcost, idx] =  min((duration - mean_duration).^2);
+[targetcost, idx] =  (duration - mean_duration);
 
 end
 
