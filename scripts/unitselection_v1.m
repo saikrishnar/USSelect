@@ -37,14 +37,6 @@ dict_durations_time = duration_frame*80/16;
 dict_f0_start = feats_dict(:,7);
 dict_f0_end = feats_dict(:,8);
 
-
-
-
-
-
-
-
-
 % Start the Viterbi Algorithm
 p = 0;
 TC = {};
@@ -65,10 +57,8 @@ for i = 1:length(test_phones)
         
     end
 end
-
 p = p  + 1;
-size(TC)
-JC = {};
+
 
 %  Step 2:    Compute the cost for all the other units
 for i = p+1 : length(test_phones) - 1
@@ -79,33 +69,31 @@ for i = p+1 : length(test_phones) - 1
     previousunit_examples = temp(strcmp(previous_unit,temp));
     previousunit_f0 = dict_f0_start(strcmp(previous_unit,temp));
     
-    
     current_unit = test_phones(i)
     currentunit_examples = temp(strcmp(current_unit,temp));
     currentunit_f0 = dict_f0_end(strcmp(current_unit,temp));
     currentunit_duration = dict_durations_time(strcmp(current_unit,temp));
-   
-       
+    
     joincostmatrix = zeros(length(currentunit_f0),length(previousunit_f0));
     
     for k = 1:length(currentunit_f0)
-        temp = zeros(length(currentunit_examples),1);
+        %temp = zeros(length(currentunit_examples),1);
         for l = 1: length(previousunit_f0)
             distance = sqrt((currentunit_f0(k) - previousunit_f0(l)).^2);
             joincostmatrix(k,l) = distance;
-        end       
-        
+        end
+        %[temp(k), idx] = min(sum_temp);
     end
-            temp = currentunit_duration - mean(currentunit_duration);
-
-    TC{i} = temp;
+    
+    TC{i} = currentunit_duration - mean(currentunit_duration);
     strcat('Updated TC in the ', num2str(i))
     size(TC)
     
     % Update Cstar
     cbar = Cstar{i-1};
     abar = TC{i};
-    temp = zeros(length(currentunit_examples),1);
+    temparray = zeros(length(currentunit_examples),1);
+    idx = zeros(length(currentunit_examples),1);
     for k = 1:length(currentunit_examples)
         a = abar(k);
         sum_temp = zeros(length(previousunit_examples),1);
@@ -114,9 +102,36 @@ for i = p+1 : length(test_phones) - 1
             c = cbar(l);
             sum_temp(l) = a+b+c;
         end
-        temp(k) = min(sum_temp);
+        [temparray(k), idx(k)] = min(sum_temp);
     end
-    Cstar{i} = temp;
+    Cstar{i} = temparray;
+    Kstar{i} = idx;
+    
 end
+
+clear idx;
+clc;
+% Step 3:
+idx = zeros(length(Cstar),1);
+k_i = zeros(length(Cstar),1);
+for i = 1: length(Cstar)
+    
+    dummyvariable = Cstar{i};
+    dummyvariable2 = Kstar{i};
+    if isempty(dummyvariable)
+        continue;
+    else
+        if isempty(dummyvariable2)
+            k_i(i) = 1;
+        else
+            [~,idx(i)] = min(dummyvariable);
+            k_i(i) = dummyvariable2(idx(i));
+        end
+    end
+end
+
+k_i
+test_phones
+
 
 
