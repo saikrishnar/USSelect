@@ -44,7 +44,7 @@ dict_f0_end = feats_dict(:,8);
 [p, TC, Cstar] = my_viterbi_step1(test_phones, temp, dict_durations_time); 
 [ Cstar, Kstar, TC ] = my_viterbi_step2( p, test_phones, dict_f0_start, dict_f0_end, TC, Cstar, temp, dict_durations_time); 
 k_i = my_viterbi_step3(Cstar, Kstar)
-%exemplar_array = my_viterbi_step4(test_phones, phones_dump, k_i);
+%exemplar_array = my_viterbi_step4(test_phones, temp, k_i);
 % 
 % clear idx;
 % k_i

@@ -32,8 +32,8 @@ phones_dict = textscan(fid, '%s');
 fclose(fid);
 temp = phones_dict{1};
 feats_dict = load('../dictionary/feats.dict');
-start_frame = feats_dict(:,1);
-end_frame = feats_dict(:,2);
+start_frame = feats_dict(:,3);
+end_frame = feats_dict(:,4);
 duration_frame = end_frame - start_frame;
 dict_durations_time = duration_frame*80/16;
 dict_f0_start = feats_dict(:,7);
@@ -43,8 +43,8 @@ dict_f0_end = feats_dict(:,8);
 % Start the Viterbi Algorithm
 [p, TC, Cstar] = my_viterbi_step1(test_phones, temp, dict_durations_time); 
 [ Cstar, Kstar, TC ] = my_viterbi_step2( p, test_phones, dict_f0_start, dict_f0_end, TC, Cstar, temp, dict_durations_time); 
-k_i = my_viterbi_step3(Cstar, Kstar);
-exemplar_array = my_viterbi_step4(test_phones, phones_dump, k_i);
+k_i = my_viterbi_step3(Cstar, Kstar)
+exemplar_array = my_viterbi_step4(test_phones, temp, k_i);
 % 
 % clear idx;
 % k_i
