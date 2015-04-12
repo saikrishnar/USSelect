@@ -21,7 +21,7 @@ fclose(fid);
 filenames = filenames_dict{1};
 
 
-for i = 1 : length(uniq_phones)
+for i = 2 : length(uniq_phones)
     i
     unit = uniq_phones{i};
     unitfolder = strcat('../units/', unit);
@@ -48,5 +48,5 @@ for i = 1 : length(uniq_phones)
         wavwrite(y_unit,fs, wavname);
     end
     fclose(fid);
-    pause;
+    
 end
